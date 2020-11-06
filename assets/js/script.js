@@ -8,11 +8,13 @@ var map = new mapboxgl.Map({
     zoom: 10
   });
 
-// var marker = new mapboxgl.Marker()
-//     .setLngLat([-21.9270884, 64.1436456])
-//     .addTo(map);
+var marker = new mapboxgl.Marker()
+    .setLngLat([-124.0828, 40.8665])
+    .addTo(map);
 
-//$("#map").show();
-//map.resize();
+var mapType = $("#maps").change("option",function(){
+  var mapSelection = $(this).val();
+  console.log("Selection", $(this).val());
+  map.setStyle("mapbox://styles/mapbox/"+mapSelection);
+});
 
-//document.getElementById('#map').style.display = 'block';
