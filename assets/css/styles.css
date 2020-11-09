@@ -62,3 +62,39 @@ body {
   outline: 0;
   box-shadow: 0 0 0 .2rem rgba(91,111,63,.25);
 }
+
+
+/* Map popup styles */
+.mapboxgl-popup-content {
+  border: 1px solid gray;
+  padding: 0px;
+  width: 150px;
+}
+
+.mapboxgl-popup h5 {
+  background-color: #5B6F3F;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 6px 10px;
+  margin: 0 0 5px 0;
+}
+
+.mapboxgl-popup p {
+  padding: 0px 15px 2px 10px;
+  margin: 0px;
+  font-style: italic;
+  line-height: 1.5em;
+}
+
+.mapboxgl-popup a {
+  color: #5B6F3F;
+  text-decoration: none;
+  font-style: normal;
+}
+
+.mapboxgl-popup a:hover {
+  color: #43522f;
+}
+
+/* End Map popup styles */

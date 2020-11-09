@@ -20,7 +20,7 @@ map.on('load', function() {
   
   map.addSource('photo-points', {
     type: "vector",
-    url: "mapbox://yooperjb.20exx7ob"
+    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg"
     });
 
   map.addLayer ({
@@ -40,7 +40,7 @@ map.on('load', function() {
     "id": "photo-points", 
     "type": "circle",
     "source": "photo-points",
-    "source-layer": "high_points-aa54oz",
+    "source-layer": "bigfoot-photo-points", //name on mapbox
     "layout": {
       "visibility": "none"},
     "paint": {
@@ -50,9 +50,16 @@ map.on('load', function() {
   });
 });
 
-// When layer features are clicked get info
+// When photo-point features are clicked get info
 map.on("click", "photo-points", function(e){
   console.log(e.features);
+  var name = e.features[0].properties.NAME;
+  var wilderness = e.features[0].properties.SITE_NAME;
+  var URL = e.features[0].properties.URL;
+  new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML("<h5>"+name+"</h5><p>"+wilderness+"</p><p><a target='_blank' href='"+URL+"'>"+"More Information</a>")
+    .addTo(map);
 })
 
 // Change cursor over clickable layers
