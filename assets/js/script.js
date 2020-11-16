@@ -12,15 +12,20 @@ map.fitBounds([
 ]);
 
 map.on('load', function() {
-  // add source and layer for Bigfoot Trail
+  // add sources and layers for Bigfoot Trail data
   map.addSource('bigfoot-trail', {
     type: "vector",
-    url: "mapbox://yooperjb.5k1rs37y"
+    url: "mapbox://yooperjb.5k1rs37y" //tileset ID
     });
   
   map.addSource('photo-points', {
     type: "vector",
-    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg"
+    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg" //tileset ID
+    });
+  
+  map.addSource('water-points', {
+    type: "vector",
+    url: "mapbox://yooperjb.d3fmw0q7" //tileset ID
     });
 
   map.addLayer ({
@@ -36,6 +41,7 @@ map.on('load', function() {
       "line-color": '#a27759',
       "line-width": 2 }
     });
+  
   map.addLayer({
     "id": "photo-points", 
     "type": "circle",
@@ -46,6 +52,18 @@ map.on('load', function() {
     "paint": {
       "circle-radius": 4,
       "circle-color": 'black'
+    }
+  });
+  map.addLayer({
+    "id": "water-points", 
+    "type": "circle",
+    "source": "water-points",
+    "source-layer": "water_points-d2zqcw", //name on mapbox
+    //"layout": {
+      //"visibility": "none"},
+    "paint": {
+      "circle-radius": 4,
+      "circle-color": 'blue'
     }
   });
 });
@@ -72,6 +90,7 @@ map.on("mouseleave", "photo-points", function(){
   map.getCanvas().style.cursor = "";
 });
 
+// checkbox functionality
 $(".trailLayers input").click("input", function(){
   clickedLayer = $(this).val();
   // console.log("Checkbox Clicked");
