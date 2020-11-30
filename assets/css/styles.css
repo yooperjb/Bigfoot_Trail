@@ -65,18 +65,19 @@ body {
 }
 
 .btn.focus, .btn:focus {
-  outline: 0;
+  outline: 2px;
   /* box-shadow: 0 0 0 .2rem rgba(91,111,63,.25); */
   box-shadow: none;
 }
 
-.card-header:focus-within {
- 
-  border: 2px solid #5b6f3f;
-  border-radius: 2px;
-  
+.card-header {
+  border: 2px solid transparent;
 }
 
+.card-header:focus-within {
+  border: 2px solid #5b6f3f;
+  border-radius: 2px;
+}
 
 /* Map popup styles */
 .mapboxgl-popup-content {
