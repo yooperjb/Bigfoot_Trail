@@ -1,10 +1,9 @@
 mapboxgl.accessToken = "pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg";
+let cameraIcon = 'https://i.dlpng.com/static/png/5266232-camera-icon-png-image-free-download-searchpngcom-camera-icon-png-1300_989_preview.png'
 
 var map = new mapboxgl.Map({
     container: 'map', // HTML container id
-    style: 'mapbox://styles/mapbox/outdoors-v11', // style URL
-    //center: [-124.0828, 40.8665], // starting position as [lng, lat]
-    //zoom: 11
+    style: 'mapbox://styles/mapbox/outdoors-v11',
   });
 
 map.fitBounds([
@@ -13,14 +12,32 @@ map.fitBounds([
 
 map.on('load', function() {
   // add sources and layers for Bigfoot Trail data
-  addSources();
-  addLayers();
-
+ 
+  //addSources();
+  map.addSource("photo-points",{
+    type: "vector",
+    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",//tileset ID
+  })
+  //addLayers();
+  map.addLayer({
+    "id": "photo-points",
+    "type": "symbol",
+    "source": "photo-points",
+    "source-layer": "bigfoot-photo-points", //name on mapbox
+    "layout": {
+      "icon-image": 'attraction-15',
+      "icon-size": 1.5,
+      "visibility": "none"},
+    "paint": {
+      "icon-color": '#ff00d4',
+      }
+    },
+  )
 });
 
 // When photo-point features are clicked get info
 map.on("click", "photo-points", function(e){
-  console.log(e.features);
+  //console.log(e.features);
   var name = e.features[0].properties.NAME;
   var wilderness = e.features[0].properties.SITE_NAME;
   var URL = e.features[0].properties.URL;
@@ -85,10 +102,10 @@ const addSources = () => {
 const addLayers = () => {
   layers.forEach(layer => {
     let paintKeys = Object.keys(layer.layer.paint);
-    console.log("key ", paintKeys[0]);
-    console.log("key ", paintKeys[1]);
+    //console.log("key ", paintKeys[0]);
+    //console.log("key ", paintKeys[1]);
     //console.log(typeof paintKeys[1]);
-    console.log("val ", layer.layer.paint[paintKeys[0]]);
+    //console.log("val ", layer.layer.paint[paintKeys[0]]);
     map.addLayer({
       'id': layer.layer.id,
       'type': layer.layer.type,
