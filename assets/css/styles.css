@@ -2,7 +2,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
   }
 
 .row {
@@ -55,6 +54,10 @@ body {
 
 #sidebar label {
   margin: 10px 5px;
+}
+
+.card-body {
+  padding-left: 1rem;
 }
 
 .btn-link {
