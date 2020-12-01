@@ -1,5 +1,5 @@
 mapboxgl.accessToken = "pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg";
-   
+
 var map = new mapboxgl.Map({
     container: 'map', // HTML container id
     style: 'mapbox://styles/mapbox/outdoors-v11', // style URL
@@ -13,59 +13,9 @@ map.fitBounds([
 
 map.on('load', function() {
   // add sources and layers for Bigfoot Trail data
-  map.addSource('bigfoot-trail', {
-    type: "vector",
-    url: "mapbox://yooperjb.5k1rs37y" //tileset ID
-    });
-  
-  map.addSource('photo-points', {
-    type: "vector",
-    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg" //tileset ID
-    });
-  
-  map.addSource('water-points', {
-    type: "vector",
-    url: "mapbox://yooperjb.d3fmw0q7" //tileset ID
-    });
+  addSources();
+  addLayers();
 
-  map.addLayer ({
-    "id": "bigfoot-trail", // custom name
-    "type": "line",
-    "source": "bigfoot-trail",// must be name from addSource above
-    "source-layer": "Bigfoot_Trail-29rrnr",// found below layer details in tilesets
-    "layout": {
-      "line-join": "round",
-      "line-cap": "round",
-      "visibility": "visible"},
-    "paint": {
-      "line-color": '#a27759',
-      "line-width": 2 }
-    });
-  
-  map.addLayer({
-    "id": "photo-points", 
-    "type": "circle",
-    "source": "photo-points",
-    "source-layer": "bigfoot-photo-points", //name on mapbox
-    "layout": {
-      "visibility": "none"},
-    "paint": {
-      "circle-radius": 4,
-      "circle-color": 'black'
-    }
-  });
-  map.addLayer({
-    "id": "water-points", 
-    "type": "circle",
-    "source": "water-points",
-    "source-layer": "water_points-d2zqcw", //name on mapbox
-    "layout": {
-      "visibility": "none"},
-    "paint": {
-      "circle-radius": 4,
-      "circle-color": 'blue'
-    }
-  });
 });
 
 // When photo-point features are clicked get info
@@ -102,6 +52,8 @@ $(".trailLayers input").click("input", function(){
   // console.log($(this).val());
   //console.log("Checked: ", $(this)[0].checked);
   //console.log(clickedLayer);
+
+  // gets properties of layer checkboxed clicked
   var vis = map.getLayoutProperty(clickedLayer,"visibility");
   //console.log("visible: ",vis);
   // Change status of layer based on checkbox state
@@ -114,10 +66,41 @@ $(".trailLayers input").click("input", function(){
 });
 
 // Change map based on selector option
-var mapType = $("#maps").change("option",function(){
+let mapType = $("#maps").change("option",function(){
   var mapSelection = $(this).val();
   console.log("Selection", $(this).val());
   map.setStyle("mapbox://styles/mapbox/"+mapSelection);
-  addLayers();
+  //addLayers();
 });
 
+const addSources = () => {
+  layers.forEach(layer => {
+    map.addSource(layer.name,{
+      'type': layer.type,
+      'url': layer.url
+    })
+  })
+};
+
+const addLayers = () => {
+  layers.forEach(layer => {
+    let paintKeys = Object.keys(layer.layer.paint);
+    console.log("key ", paintKeys[0]);
+    console.log("key ", paintKeys[1]);
+    //console.log(typeof paintKeys[1]);
+    console.log("val ", layer.layer.paint[paintKeys[0]]);
+    map.addLayer({
+      'id': layer.layer.id,
+      'type': layer.layer.type,
+      'source': layer.name,
+      'source-layer': layer.layer["source-layer"],
+      'layout': {
+        'visibility': layer.layer.layout.visibility,
+      },
+      'paint': {
+        [paintKeys[0]]: layer.layer.paint[paintKeys[0]],
+        [paintKeys[1]]: layer.layer.paint[paintKeys[1]],
+      },
+    })
+  })
+};
