@@ -59,8 +59,8 @@ map.on('load', function() {
     "type": "circle",
     "source": "water-points",
     "source-layer": "water_points-d2zqcw", //name on mapbox
-    //"layout": {
-      //"visibility": "none"},
+    "layout": {
+      "visibility": "none"},
     "paint": {
       "circle-radius": 4,
       "circle-color": 'blue'
@@ -92,21 +92,26 @@ map.on("mouseleave", "photo-points", function(){
 
 // checkbox functionality
 $(".trailLayers input").click("input", function(){
+  // get layer id that was clicked
   clickedLayer = $(this).val();
   // console.log("Checkbox Clicked");
-  //console.log($(this));
+  console.log($(this));
+  console.log("Checked? ", $(this).prop('checked'));
+  // get checkbox status (true/false)
+  checked = $(this).prop('checked');
   // console.log($(this).val());
   //console.log("Checked: ", $(this)[0].checked);
   //console.log(clickedLayer);
   var vis = map.getLayoutProperty(clickedLayer,"visibility");
   //console.log("visible: ",vis);
-  if (vis === "visible") {
-    map.setLayoutProperty(clickedLayer,"visibility", "none");
-  }
-  else {
+  // Change status of layer based on checkbox state
+  if (checked) {
     map.setLayoutProperty(clickedLayer,"visibility", "visible");
   }
-})
+  else {
+    map.setLayoutProperty(clickedLayer,"visibility", "none");
+  }
+});
 
 // Change map based on selector option
 var mapType = $("#maps").change("option",function(){
