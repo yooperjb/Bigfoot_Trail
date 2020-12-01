@@ -13,12 +13,12 @@ map.fitBounds([
 map.on('load', function() {
   // add sources and layers for Bigfoot Trail data
  
-  //addSources();
+  addSources();
   map.addSource("photo-points",{
     type: "vector",
     url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",//tileset ID
   })
-  //addLayers();
+  addLayers();
   map.addLayer({
     "id": "photo-points",
     "type": "symbol",
@@ -57,13 +57,13 @@ map.on("mouseleave", "photo-points", function(){
   map.getCanvas().style.cursor = "";
 });
 
-// checkbox functionality
+// checkbox layer toggle functionality
 $(".trailLayers input").click("input", function(){
   // get layer id that was clicked
   clickedLayer = $(this).val();
   // console.log("Checkbox Clicked");
-  console.log($(this));
-  console.log("Checked? ", $(this).prop('checked'));
+  //console.log($(this));
+  //console.log("Checked? ", $(this).prop('checked'));
   // get checkbox status (true/false)
   checked = $(this).prop('checked');
   // console.log($(this).val());
@@ -92,9 +92,11 @@ let mapType = $("#maps").change("option",function(){
 
 const addSources = () => {
   layers.forEach(layer => {
+    // destructure object into variables
+    let {type, url } = layer;
     map.addSource(layer.name,{
-      'type': layer.type,
-      'url': layer.url
+      'type': type,
+      'url': url
     })
   })
 };
