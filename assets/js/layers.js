@@ -19,22 +19,24 @@ let layers = [
         "line-width": 2 }
       },
     },
-    // {
-    // name: 'photo-points', 
-    // type: "vector",
-    // url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",//tileset ID
-    // layer: {
-    //   "id": "photo-points", 
-    //   "type": "circle",
-    //   "source": "photo-points",
-    //   "source-layer": "bigfoot-photo-points", //name on mapbox
-    //   "layout": {
-    //     "visibility": "none"},
-    //   "paint": {
-    //     "circle-radius": 4,
-    //     "circle-color": 'black'}
-    //   },
-    // },
+    {
+    name: 'photo-points', 
+    type: "vector",
+    url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",//tileset ID
+    layer: {
+      "id": "photo-points", 
+      "type": "symbol",
+      "source": "photo-points",
+      "source-layer": "bigfoot-photo-points", //name on mapbox
+      "layout": {
+        "icon-image": 'camera-icon',
+        "icon-size": .15,
+        "visibility": "none"},
+      "paint": {
+        "icon-color": 'black',
+        "icon-opacity": 1,}
+      },
+    },
     {
     name: 'water-points',
     type: "vector",
