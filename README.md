@@ -1,2 +1,2 @@
-# Humb_Trails_MB
-Mapbox Practice
+# Bigfoot Trail Alliance
+Interactive Map
