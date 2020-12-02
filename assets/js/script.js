@@ -4,6 +4,7 @@ let cameraIcon = 'https://i.dlpng.com/static/png/5266232-camera-icon-png-image-f
 var map = new mapboxgl.Map({
     container: 'map', // HTML container id
     style: 'mapbox://styles/mapbox/outdoors-v11',
+    //style: 'mapbox://styles/yooperjb/cki6n0smk12s719pfdy1e5lnt',
   });
 
 map.fitBounds([

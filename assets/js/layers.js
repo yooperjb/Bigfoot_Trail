@@ -8,7 +8,7 @@ let layers = [
     layer: {
       "id": "bigfoot-trail", // custom name
       "type": "line",
-      "source": "bigfoot-trail",// must be name from addSource above
+      "source": "bigfoot-trail",// must be name from addSource
       "source-layer": "Bigfoot_Trail-29rrnr",// found below layer details in tilesets
       "layout": {
         "line-join": "round",
