@@ -13,38 +13,10 @@ map.fitBounds([
 
 map.on('load', function() {
 
-  // load camera icon
-  map.loadImage('https://image.flaticon.com/icons/png/128/482/482887.png', function(error, image) {
-    if (error) {
-      console.log("Got an error: ",error);
-      throw error;
-    }
-    map.addImage('camera-icon', image, {sdf:true});
-  });
-
+  loadImages();
   // add sources and layers for Bigfoot Trail data
   addSources();
   addLayers();
-
-  // map.addSource("photo-points",{
-  //   type: "vector",
-  //   url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",//tileset ID
-  // })
-//   map.addLayer({
-//     "id": "photo-points",
-//     "type": "symbol",
-//     "source": "photo-points",
-//     "source-layer": "bigfoot-photo-points", //name on mapbox
-//     "layout": {
-//       "icon-image": 'camera-icon',
-//       "icon-size": .15,
-//       "visibility": "visible"},
-//     "paint": {
-//       "icon-color": 'black',
-//       "icon-opacity": 1,
-//     }
-//   },
-// )
 });
 
 // When photo-point features are clicked get info
@@ -99,9 +71,14 @@ let mapType = $("#maps").change("option",function(){
   var mapSelection = $(this).val();
   console.log("Selection", $(this).val());
   map.setStyle("mapbox://styles/mapbox/"+mapSelection);
-  //addLayers();
+  map.on('styledata', function(){
+    loadImages();
+    addSources();
+    addLayers();
+ })
 });
 
+// add vector sources
 const addSources = () => {
   layers.forEach(layer => {
     // destructure object into variables
@@ -113,16 +90,12 @@ const addSources = () => {
   })
 };
 
+// add vector layers
 const addLayers = () => {
   layers.forEach(layer => {
     // destructure layers object
     let {id, type, source, 'source-layer':sourceLayer,layout,paint } = layer.layer;
     //console.log(id, type, source, sourceLayer,layout,paint);
-    let paintKeys = Object.keys(layer.layer.paint);
-    //console.log("key ", paintKeys[0]);
-    //console.log("key ", paintKeys[1]);
-    //console.log(typeof paintKeys[1]);
-    //console.log("val ", layer.layer.paint[paintKeys[0]]);
     map.addLayer({
       'id': id,
       'type': type,
@@ -133,3 +106,14 @@ const addLayers = () => {
     })
   })
 };
+
+const loadImages = () => {
+  // load camera icon
+  map.loadImage('https://image.flaticon.com/icons/png/128/482/482887.png', function(error, image) {
+    if (error) {
+      console.log("Got an error: ",error);
+      throw error;
+    }
+    map.addImage('camera-icon', image, {sdf:true});
+  });
+}
