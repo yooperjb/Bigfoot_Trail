@@ -12,16 +12,20 @@ map.fitBounds([
 ]);
 
 map.on('load', function() {
-
+  // add icones, sources and layers for Bigfoot Trail data layers
   loadImages();
-  // add sources and layers for Bigfoot Trail data
   addSources();
   addLayers();
 });
 
 // When photo-point features are clicked get info
 map.on("click", "photo-points", function(e){
-  //console.log(e.features);
+  //console.log(e.features[0]);
+  map.flyTo({
+    center: e.features[0].geometry.coordinates,
+    speed: 0.2,
+
+  });
   var name = e.features[0].properties.NAME;
   var wilderness = e.features[0].properties.SITE_NAME;
   var URL = e.features[0].properties.URL;
