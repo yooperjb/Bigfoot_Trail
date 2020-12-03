@@ -18,7 +18,7 @@ map.on('load', function() {
   addLayers();
 });
 
-// When photo-point features are clicked get info
+// When photo-point features are clicked flyto and get info
 map.on("click", "photo-points", function(e){
   //console.log(e.features[0]);
   map.flyTo({
