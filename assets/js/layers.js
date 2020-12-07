@@ -40,10 +40,10 @@ let layers = [
       type: "vector",
       url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",
       layer: {
-        "id": "photo-points", 
+        "id": "photo-points",
         "type": "symbol",
         "source": "photo-points",
-        "source-layer": "bigfoot-photo-points", 
+        "source-layer": "bigfoot-photo-points",
         "layout": {
           "icon-image": 'camera-icon',
           "icon-size": .15,
