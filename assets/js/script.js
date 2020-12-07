@@ -3,7 +3,7 @@ let cameraIcon = 'https://i.dlpng.com/static/png/5266232-camera-icon-png-image-f
 
 var map = new mapboxgl.Map({
     container: 'map', // HTML container id
-    style: 'mapbox://styles/mapbox/outdoors-v11',
+    style: 'mapbox://styles/mapbox/light-v10',
     //style: 'mapbox://styles/yooperjb/cki6n0smk12s719pfdy1e5lnt',
   });
 
@@ -20,18 +20,20 @@ map.on('load', function() {
 
 // When photo-point features are clicked flyto and get info
 map.on("click", "photo-points", function(e){
-  //console.log(e.features[0]);
+  console.log(e.features[0]);
   map.flyTo({
     center: e.features[0].geometry.coordinates,
     speed: 0.2,
 
   });
-  var name = e.features[0].properties.NAME;
-  var wilderness = e.features[0].properties.SITE_NAME;
-  var URL = e.features[0].properties.URL;
+  const name = e.features[0].properties.NAME;
+  const wilderness = e.features[0].properties.SITE_NAME;
+  const elev = e.features[0].properties.ELEV;
+  const URL = e.features[0].properties.URL;
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setHTML("<h5>"+name+"</h5><p>"+wilderness+"</p><p><a target='_blank' href='"+URL+"'>"+"More Information</a>")
+    //.setHTML("<h5>"+name+"</h5><p>"+wilderness+"</p><p><a target='_blank' href='"+URL+"'>"+"More Information</a>")
+    .setHTML(`<h5>${name}</h5><p>${wilderness}</p><p>Elevation ${elev} ft.</p><p><a target='_blank' href='${URL}'>More Information</a>`)
     .addTo(map);
 })
 
