@@ -32,7 +32,7 @@ let layers = [
         "visibility": "none"},
       "paint": {
         "circle-radius": 4,
-        "circle-color": '#5776f2'} 
+        "circle-color": '#5776f2'}
       },
     },
     {
