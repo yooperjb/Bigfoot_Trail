@@ -99,9 +99,15 @@ map.on("click", "AQI_data", function(e){
 map.on("mouseenter", "photo-points", function() {
   map.getCanvas().style.cursor = "pointer";
 });
+map.on('mouseenter', 'AQI_data', function() {
+  map.getCanvas().style.cursor = 'pointer';
+});
 
 // Change cursor back when it leaves
 map.on("mouseleave", "photo-points", function(){
+  map.getCanvas().style.cursor = "";
+});
+map.on("mouseleave", "AQI_data", function(){
   map.getCanvas().style.cursor = "";
 });
 
