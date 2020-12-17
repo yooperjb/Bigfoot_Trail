@@ -14,44 +14,21 @@ map.fitBounds([
   [-124.2,40.0],[-122.8,42.05]
 ]);
 
+// When map loads...
 map.on('load', function() {
+  // Fetch PurpleAir air quality data
   fetch(purpleAir)
     .then(response => response.json())
     .then((data) => {
       // Convert AQ data to geojson
       convertAqData(data.results);
-      // Add converted AQ data to map
-      map.addSource('AQI_data', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': aqData
-        }
-      });
-      // Add AQ layer 
-      map.addLayer({
-        'id': 'AQI_data',
-        'type': 'circle',
-        'source': 'AQI_data',
-        'layout': {
-          "visibility": "visible"},
-        // I need to automate circle color based on value - probably create icon color in the json file based on pm2.5 value and use {color} as value for circle-color
-        'paint': {
-          //'circle-opacity': .2,
-          'circle-radius': 7,
-          'circle-color': {
-            type: 'identity',
-            property: 'color',
-          },
-        }
-      })
+      
+      // After AQ fetch add sources and layers
+      loadImages();
+      addSources();
+      addLayers();
+
     });
-
-// add icons, sources and layers for Bigfoot Trail data layers
-  loadImages();
-  addSources();
-  addLayers();
-
 });
 
 // When photo-point features are clicked flyto and get info
@@ -115,17 +92,15 @@ map.on("mouseleave", "AQI_data", function(){
 $(".trailLayers input").click("input", function(){
   // get layer id that was clicked
   clickedLayer = $(this).val();
-  // console.log("Checkbox Clicked");
+  
+  //console.log("Checkbox Clicked");
   //console.log($(this));
-  //console.log("Checked? ", $(this).prop('checked'));
+  
   // get checkbox status (true/false)
   checked = $(this).prop('checked');
-  // console.log($(this).val());
-  //console.log("Checked: ", $(this)[0].checked);
-  //console.log(clickedLayer);
 
   // gets properties of layer checkboxed clicked
-  var vis = map.getLayoutProperty(clickedLayer,"visibility");
+  let vis = map.getLayoutProperty(clickedLayer,"visibility");
   //console.log("visible: ",vis);
   // Change status of layer based on checkbox state
   if (checked) {
@@ -136,7 +111,7 @@ $(".trailLayers input").click("input", function(){
   }
 });
 
-// Change map style based on selector option
+// Change map style based on style selector option
 let mapType = $("#maps").change("option",function(){
   var mapSelection = $(this).val();
   console.log("Selection", $(this).val());
@@ -152,28 +127,19 @@ let mapType = $("#maps").change("option",function(){
 const addSources = () => {
   layers.forEach(layer => {
     // destructure object into variables
-    let {type, url } = layer;
-    map.addSource(layer.name,{
-      'type': type,
-      'url': url
-    })
+    let {name, source } = layer;
+    //console.log(name, source);
+    map.addSource(name,source);
   })
 };
 
 // add vector layers
 const addLayers = () => {
-  layers.forEach(layer => {
+  layers.forEach(data => {
     // destructure layers object
-    let {id, type, source, 'source-layer':sourceLayer,layout,paint } = layer.layer;
-    //console.log(id, type, source, sourceLayer,layout,paint);
-    map.addLayer({
-      'id': id,
-      'type': type,
-      'source': source,
-      'source-layer': sourceLayer,
-      'layout': layout,
-      'paint': paint,
-    })
+    let {layer} = data;
+    //console.log(data.name,layer)
+    map.addLayer(layer)
   })
 };
 
@@ -190,7 +156,7 @@ const loadImages = () => {
 
 // Coverte AQ data to geoJSON file for mapping
 const convertAqData = (array) => {
-  console.log("AQ Data: ", array);
+  //console.log("AQ Data: ", array);
   let t0 = performance.now();
   array.forEach(sensor => {
     let {ID,Label, Lat, Lon, PM2_5Value,humidity, temp_f,DEVICE_LOCATIONTYPE } = sensor;
@@ -216,7 +182,7 @@ const convertAqData = (array) => {
       aqData.push(data);
     }
 })
-  console.log('Aq Data: ',aqData);
+  //console.log('Aq Data: ',aqData);
   let t1 = performance.now();
   console.log('Data conversion took ' + (t1-t0) + ' milliseconds');
 };

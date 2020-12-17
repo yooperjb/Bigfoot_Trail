@@ -3,8 +3,9 @@
 let layers = [
     {
     name:'bigfoot-trail',
-    type: "vector",
-    url: "mapbox://yooperjb.5k1rs37y", 
+    source: {
+      type: "vector",
+      url: "mapbox://yooperjb.5k1rs37y" },
     layer: {
       "id": "bigfoot-trail", 
       "type": "line",
@@ -21,8 +22,9 @@ let layers = [
     },
     {
     name: 'water-points',
-    type: "vector",
-    url: "mapbox://yooperjb.d3fmw0q7",
+    source: {
+      type: "vector",
+      url: "mapbox://yooperjb.d3fmw0q7"},
     layer: {
       "id": "water-points", 
       "type": "circle",
@@ -37,8 +39,9 @@ let layers = [
     },
     {
       name: 'photo-points', 
-      type: "vector",
-      url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg",
+      source: {
+        type: "vector",
+        url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg"},
       layer: {
         "id": "photo-points",
         "type": "symbol",
@@ -51,6 +54,29 @@ let layers = [
         "paint": {
           "icon-color": 'black',
           "icon-opacity": 1,}
+        },
+      },
+      {
+        name: 'AQI_data',
+        source: {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': aqData}
+          },
+        layer: {
+          'id': 'AQI_data',
+          'type': 'circle',
+          'source': 'AQI_data',
+          'layout': {
+            "visibility": "none"},
+          // Automate circle color based on pm2.5 value
+          'paint': {
+            'circle-radius': 7,
+            'circle-color': {
+              type: 'identity',
+              property: 'color',},
+          }
         },
       },
   ];
