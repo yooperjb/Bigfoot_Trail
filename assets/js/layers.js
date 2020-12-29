@@ -1,7 +1,7 @@
 
 // vector tileset layers
 let layers = [
-    {
+  {
     name:'bigfoot-trail',
     source: {
       type: "vector",
@@ -38,45 +38,45 @@ let layers = [
       },
     },
     {
-      name: 'photo-points', 
-      source: {
-        type: "vector",
-        url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg"},
-      layer: {
-        "id": "photo-points",
-        "type": "symbol",
-        "source": "photo-points",
-        "source-layer": "bigfoot-photo-points",
-        "layout": {
-          "icon-image": 'camera-icon',
-          "icon-size": .15,
-          "visibility": "none"},
-        "paint": {
-          "icon-color": 'black',
-          "icon-opacity": 1,}
-        },
+    name: 'photo-points', 
+    source: {
+      type: "vector",
+      url: "mapbox://yooperjb.ckh9xrkoe01rf22lfji34unkd-0sszg"},
+    layer: {
+      "id": "photo-points",
+      "type": "symbol",
+      "source": "photo-points",
+      "source-layer": "bigfoot-photo-points",
+      "layout": {
+        "icon-image": 'camera-icon',
+        "icon-size": .15,
+        "visibility": "none"},
+      "paint": {
+        "icon-color": 'black',
+        "icon-opacity": 1,}
       },
-      {
-        name: 'AQI_data',
-        source: {
-          'type': 'geojson',
-          'data': {
-            'type': 'FeatureCollection',
-            'features': aqData}
-          },
-        layer: {
-          'id': 'AQI_data',
-          'type': 'circle',
-          'source': 'AQI_data',
-          'layout': {
-            "visibility": "none"},
-          // Automate circle color based on pm2.5 value
-          'paint': {
-            'circle-radius': 7,
-            'circle-color': {
-              type: 'identity',
-              property: 'color',},
-          }
-        },
+    },
+    {
+    name: 'AQI_data',
+    source: {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': aqData}
       },
-  ];
+    layer: {
+      'id': 'AQI_data',
+      'type': 'circle',
+      'source': 'AQI_data',
+      'layout': {
+        "visibility": "none"},
+      // Automate circle color based on pm2.5 value
+      'paint': {
+        'circle-radius': 7,
+        'circle-color': {
+          type: 'identity',
+          property: 'color',},
+      }
+    },
+  },
+];

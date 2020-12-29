@@ -1,8 +1,8 @@
 mapboxgl.accessToken = "pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg";
 let cameraIcon = 'https://i.dlpng.com/static/png/5266232-camera-icon-png-image-free-download-searchpngcom-camera-icon-png-1300_989_preview.png'
 // constrain json data to lat lon bounds
-purpleAir = 'https://www.purpleair.com/json?nwlat=42.6&selat=38.9&nwlng=-124.75&selng=-119.96';
-aqData = [];
+const purpleAir = 'https://www.purpleair.com/json?nwlat=42.6&selat=38.9&nwlng=-124.75&selng=-119.96';
+let aqData = [];
 
 var map = new mapboxgl.Map({
     container: 'map', // HTML container id
@@ -92,9 +92,6 @@ map.on("mouseleave", "AQI_data", function(){
 $(".trailLayers input").click("input", function(){
   // get layer id that was clicked
   clickedLayer = $(this).val();
-  
-  //console.log("Checkbox Clicked");
-  //console.log($(this));
   
   // get checkbox status (true/false)
   checked = $(this).prop('checked');
