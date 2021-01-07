@@ -33,7 +33,7 @@ map.on('load', function() {
 
 // When photo-point features are clicked flyto and get info
 map.on("click", "photo-points", function(e){
-  console.log(e.features[0]);
+  //console.log(e.features[0]);
   map.flyTo({
     center: e.features[0].geometry.coordinates,
     speed: 0.2,
@@ -111,7 +111,7 @@ $(".trailLayers input").click("input", function(){
 // Change map style based on style selector option
 let mapType = $("#maps").change("option",function(){
   var mapSelection = $(this).val();
-  console.log("Selection", $(this).val());
+  //console.log("Selection", $(this).val());
   map.setStyle("mapbox://styles/mapbox/"+mapSelection);
   map.on('styledata', function(){
     loadImages();
@@ -140,6 +140,7 @@ const addLayers = () => {
   })
 };
 
+// icon images
 const loadImages = () => {
   // load camera icon
   map.loadImage('https://image.flaticon.com/icons/png/128/482/482887.png', function(error, image) {

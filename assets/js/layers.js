@@ -62,21 +62,45 @@ let layers = [
       'type': 'geojson',
       'data': {
         'type': 'FeatureCollection',
-        'features': aqData}
+        'features': aqData},
       },
     layer: {
       'id': 'AQI_data',
       'type': 'circle',
       'source': 'AQI_data',
       'layout': {
-        "visibility": "none"},
+        "visibility": "none",
+        },
       // Automate circle color based on pm2.5 value
       'paint': {
         'circle-radius': 7,
         'circle-color': {
           type: 'identity',
           property: 'color',},
-      }
+        }
+      },
     },
-  },
+    {
+      // add AQI data as symbol for labeling
+      name: 'AQI_data_label',
+      source: {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': aqData},
+        },
+      layer: {
+        'id': 'AQI_data_label',
+        'type': 'symbol',
+        'source': 'AQI_data',
+        'layout': {
+          "visibility": "none",
+          "text-field": "{pm25}",
+          'text-size': 8,
+          },
+        'paint': {
+          'text-color': 'black',
+          }
+        },
+      }
 ];
