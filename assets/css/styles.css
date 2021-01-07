@@ -126,4 +126,10 @@ body {
 .mapboxgl-popup a:hover {
   color: #43522f;
 }
+
+.mapboxgl-popup ul {
+  list-style-type: none;
+  padding: 10px 15px;
+  margin: 0;
+}
 /* End Map popup styles */
