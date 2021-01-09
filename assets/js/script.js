@@ -1,7 +1,8 @@
 mapboxgl.accessToken = "pk.eyJ1IjoieW9vcGVyamIiLCJhIjoiY2toNXR1cWI4MDV2YzJ1bndoZnJtZzY3bCJ9.4O6nJopZD7FE6pUVr7f3kg";
 let cameraIcon = 'https://i.dlpng.com/static/png/5266232-camera-icon-png-image-free-download-searchpngcom-camera-icon-png-1300_989_preview.png'
 // constrain json data to lat lon bounds
-const purpleAir = 'https://www.purpleair.com/json?nwlat=42.6&selat=38.9&nwlng=-124.75&selng=-119.96';
+// const purpleAir = 'https://www.purpleair.com/json?nwlat=42.6&selat=38.9&nwlng=-124.75&selng=-119.96';
+const purpleAir = 'https://api.purpleair.com/v1/sensors?fields=name%2Clatitude%2Clongitude%2Caltitude%2Cpm1.0%2Cpm2.5%2Chumidity%2Ctemperature%2Cpressure%2Cvoc%2Cozone1&location_type=0&nwlng=-124.75&nwlat=42.6&selng=-119.96&selat=38.9';
 let aqData = [];
 
 var map = new mapboxgl.Map({
@@ -17,11 +18,18 @@ map.fitBounds([
 // When map loads...
 map.on('load', function() {
   // Fetch PurpleAir air quality data
-  fetch(purpleAir)
+  fetch(purpleAir, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': 'A4F62FD2-44C8-11EB-9893-42010A8001E8',
+    }
+  })
     .then(response => response.json())
     .then((data) => {
+      console.log(data.data);
       // Convert AQ data to geojson
-      convertAqData(data.results);
+      convertAqData(data.data);
       
       // After AQ fetch add sources and layers
       loadImages();
@@ -92,6 +100,7 @@ map.on("mouseleave", "AQI_data", function(){
 $(".trailLayers input").click("input", function(){
   // get layer id that was clicked
   clickedLayer = $(this).val();
+  console.log(clickedLayer);
   
   // get checkbox status (true/false)
   checked = $(this).prop('checked');
@@ -152,14 +161,13 @@ const loadImages = () => {
   });
 };
 
-// Coverte AQ data to geoJSON file for mapping
+// Coverte AQ data to geoJSON file
 const convertAqData = (array) => {
-  //console.log("AQ Data: ", array);
+  // start conversion timer
   let t0 = performance.now();
   array.forEach(sensor => {
-    let {ID,Label, Lat, Lon, PM2_5Value,humidity, temp_f,DEVICE_LOCATIONTYPE } = sensor;
+    let [ID,Label, Lat, Lon, alt,pm1,pm2_5,humidity, temp_f,pressure,voc,ozone ] = sensor;
     
-    if (DEVICE_LOCATIONTYPE === 'outside') {
       let data = 
         {
           type:'Feature',
@@ -170,21 +178,26 @@ const convertAqData = (array) => {
           properties: {
             id: ID,
             label:Label,
-            pm25: PM2_5Value,
+            pm1: pm1,
+            pm25: pm2_5,
+            alt: alt,
             humidity: humidity,
             temp: temp_f,
-            location: DEVICE_LOCATIONTYPE,
-            color: getColor(PM2_5Value),
+            pressure: pressure,
+            voc: voc,
+            ozone: ozone,
+            color: getColor(pm2_5),
           },
         }
       aqData.push(data);
-    }
+    
 })
   //console.log('Aq Data: ',aqData);
   let t1 = performance.now();
   console.log('Data conversion took ' + (t1-t0) + ' milliseconds');
 };
 
+// assign AQI color based on pm2.5 value
 const getColor = (value) => {
   if (value < 50) {
     return '#68E143';
